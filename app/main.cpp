@@ -1,8 +1,6 @@
-#include <iostream>
-
-#include "sjb/sjb.hpp"
+// TODO: wire this up once rules/bots/simulator exist —
+// e.g. build two bots, call sjb::run_game, print/log the result.
 
 int main() {
-    std::cout << "strategy-jam-bots v" << sjb::version() << '\n';
     return 0;
 }
