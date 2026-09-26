@@ -36,21 +36,32 @@ function(sjb_set_warnings target)
     endif()
 endfunction()
 
-# Core library: all game/bot logic lives here so it can be shared by the
-# executable and the tests.
+# Core library: game state, rules, and the simulator. No bot logic, no I/O.
 add_library(sjb_core
-    src/sjb.cpp
+    src/rules.cpp
+    src/simulator.cpp
 )
 add_library(sjb::core ALIAS sjb_core)
 target_include_directories(sjb_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_compile_definitions(sjb_core PRIVATE SJB_VERSION="${PROJECT_VERSION}")
 sjb_set_warnings(sjb_core)
+
+# Bots: each implements the sjb::Bot interface against sjb::core.
+add_library(sjb_bots
+    bots/random_bot.cpp
+    bots/greedy_bot.cpp
+    bots/heuristic_bot.cpp
+    bots/minimax_bot.cpp
+)
+add_library(sjb::bots ALIAS sjb_bots)
+target_include_directories(sjb_bots PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(sjb_bots PUBLIC sjb::core)
+sjb_set_warnings(sjb_bots)
 
 # Main executable.
 add_executable(strategy_jam_bots
     app/main.cpp
 )
-target_link_libraries(strategy_jam_bots PRIVATE sjb::core)
+target_link_libraries(strategy_jam_bots PRIVATE sjb::core sjb::bots)
 sjb_set_warnings(strategy_jam_bots)
 
 if(SJB_BUILD_TESTS)

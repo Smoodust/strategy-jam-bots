@@ -12,7 +12,7 @@ set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 add_executable(sjb_tests
-    sjb_test.cpp
+    rules_test.cpp
 )
 target_link_libraries(sjb_tests PRIVATE sjb::core GTest::gtest_main)
 sjb_set_warnings(sjb_tests)
