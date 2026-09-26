@@ -17,6 +17,8 @@ void apply_move(GameState& state, const Move& move);
 // Undoes the most recent apply_move(state, move).
 void undo_move(GameState& state, const Move& move);
 
+bool is_player_a_move(const GameState& state);
+
 // True once the game has ended (win, loss, draw, ...).
 bool is_terminal(const GameState& state);
 
